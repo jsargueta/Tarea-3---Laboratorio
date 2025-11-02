@@ -19,11 +19,10 @@ elif seleccion == "Otra opción":
 if "sesion_iniciada" in st.session_state and st.session_state["sesion_iniciada"]:
     st.success(f"Sesión iniciada como {st.session_state['usuario']}")
 
-    # Si la sesión está iniciada, mostrar el contenido de ventas
-    mostrar_venta()
 else:
     # Si la sesión no está iniciada, mostrar el login
     login()
+
 
 
 
