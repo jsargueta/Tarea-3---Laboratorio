@@ -11,7 +11,7 @@ def mostrar_compra():
         # Formulario para registrar la compra
         with st.form("form_compra"):
             producto = st.text_input("Nombre del producto")
-            cantidad = st.number_input("Cantidad", min_value=1, step=1)
+            cantidad = st.text_input("Cantidad")  # Ahora es varchar
             proveedor = st.text_input("Proveedor")
             enviar = st.form_submit_button("✅ Guardar compra")
 
@@ -20,11 +20,13 @@ def mostrar_compra():
                     st.warning("⚠️ Debes ingresar el nombre del producto.")
                 elif proveedor.strip() == "":
                     st.warning("⚠️ Debes ingresar el nombre del proveedor.")
+                elif cantidad.strip() == "":
+                    st.warning("⚠️ Debes ingresar la cantidad.")
                 else:
                     try:
                         cursor.execute(
-                            "INSERT INTO Compras (Producto, Cantidad, Proveedor) VALUES (%s, %s, %s)",
-                            (producto, str(cantidad), proveedor)
+                            "INSERT INTO Compras (Cantidad, Proveedor, Producto) VALUES (%s, %s, %s)",
+                            (cantidad, proveedor, producto)
                         )
                         con.commit()
                         st.success(f"✅ Compra registrada correctamente: {producto} (Cantidad: {cantidad}, Proveedor: {proveedor})")
@@ -34,7 +36,7 @@ def mostrar_compra():
                         st.error(f"❌ Error al registrar la compra: {e}")
 
         # Mostrar todas las compras registradas
-        cursor.execute("SELECT ID, Producto, Cantidad, Proveedor, Fecha FROM Compras ORDER BY Fecha DESC")
+        cursor.execute("SELECT Id_compra, Producto, Cantidad, Proveedor FROM Compras ORDER BY Id_compra DESC")
         compras = cursor.fetchall()
         if compras:
             st.subheader("🗂️ Compras registradas")
@@ -50,4 +52,5 @@ def mostrar_compra():
             cursor.close()
         if 'con' in locals():
             con.close()
+
 
