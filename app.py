@@ -1,7 +1,7 @@
 import streamlit as st
 from modulos.venta import mostrar_venta
 from modulos.compra import mostrar_compra
-from modulos.prdocuto import mostrar_producto
+from modulos.producto import mostrar_producto
 from modulos.login import login
 
 # Inicializamos las variables de sesión si no existen
@@ -28,6 +28,7 @@ elif seleccion == "Productos":
 else:
     # Si la sesión no está iniciada, mostramos el login
     login()
+
 
 
 
