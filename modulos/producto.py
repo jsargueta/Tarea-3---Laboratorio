@@ -8,31 +8,32 @@ def mostrar_producto():
         con = obtener_conexion()
         cursor = con.cursor()
 
-        # Formulario para agregar productos
+        # Formulario para agregar un producto
         with st.form("form_producto"):
             nombre = st.text_input("Nombre del producto")
-            precio = st.number_input("Precio", min_value=0.0, step=0.01, format="%.2f")
-            stock = st.number_input("Stock", min_value=0, step=1)
+            marca = st.text_input("Marca del producto")
             enviar = st.form_submit_button("✅ Agregar producto")
 
             if enviar:
                 if nombre.strip() == "":
-                    st.warning("⚠️ Debes ingresar un nombre para el producto.")
+                    st.warning("⚠️ Debes ingresar el nombre del producto.")
+                elif marca.strip() == "":
+                    st.warning("⚠️ Debes ingresar la marca del producto.")
                 else:
                     try:
                         cursor.execute(
-                            "INSERT INTO Productos (Nombre, Precio, Stock) VALUES (%s, %s, %s)",
-                            (nombre, precio, stock)
+                            "INSERT INTO Productos (Nombre_producto, Marca) VALUES (%s, %s)",
+                            (nombre, marca)
                         )
                         con.commit()
-                        st.success(f"✅ Producto agregado: {nombre} (Precio: {precio}, Stock: {stock})")
+                        st.success(f"✅ Producto agregado: {nombre} (Marca: {marca})")
                         st.experimental_rerun()
                     except Exception as e:
                         con.rollback()
-                        st.error(f"❌ Error al agregar producto: {e}")
+                        st.error(f"❌ Error al agregar el producto: {e}")
 
         # Mostrar productos existentes
-        cursor.execute("SELECT ID, Nombre, Precio, Stock FROM Productos ORDER BY ID DESC")
+        cursor.execute("SELECT Id_producto, Nombre_producto, Marca FROM Productos ORDER BY Id_producto DESC")
         productos = cursor.fetchall()
         if productos:
             st.subheader("🗂️ Productos existentes")
@@ -48,3 +49,4 @@ def mostrar_producto():
             cursor.close()
         if 'con' in locals():
             con.close()
+
