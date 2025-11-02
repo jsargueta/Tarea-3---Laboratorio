@@ -20,14 +20,16 @@ if st.session_state["sesion_iniciada"]:
 
     # Según la opción seleccionada
     if seleccion == "Ventas":
-    mostrar_venta()
-elif seleccion == "Compras":
-    mostrar_compra()
-elif seleccion == "Productos":
-    mostrar_producto()
+        mostrar_venta()
+    elif seleccion == "Compras":
+        mostrar_compra()
+    elif seleccion == "Productos":
+        mostrar_producto()
 else:
     # Si la sesión no está iniciada, mostramos el login
     login()
+
+
 
 
 
